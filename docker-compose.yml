@@ -4,6 +4,6 @@ services:
   gatewayservice:
     image: pythonfinalproject2021.azurecr.io/gatewayservice
     container_name: gatewayservice
-    build: ../gateway_service
+    build: ../gateway_service/
     ports:
       - 5001:5001
