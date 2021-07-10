@@ -7,3 +7,11 @@ services:
     build: ../gateway_service
     ports:
       - 5001:5001
+  
+  dataservice:
+    image: pythonfinalproject2021.azurecr.io/dataservice
+    container_name: dataservice
+    build: ../data_service
+    ports:
+      - 5002:5002
+    
