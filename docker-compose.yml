@@ -7,6 +7,7 @@ services:
     build: ../gateway_service
     ports:
       - 5001:5001
+    env_file: 'env.dev'
   
   dataservice:
     image: pythonfinalproject2021.azurecr.io/dataservice
@@ -14,4 +15,5 @@ services:
     build: ../data_service
     ports:
       - 5002:5002
+    env_file: 'env.dev'
     
