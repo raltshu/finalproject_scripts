@@ -1,0 +1,18 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "xprotocol"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "diamonds",
+            "username": "root",
+            "database": "diamonds",
+            "password": "rootdiamonds",
+            "connectionTimeout": 1000
+        }
+    ]
+}

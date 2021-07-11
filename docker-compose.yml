@@ -1,6 +1,19 @@
 version: '3.4'
 
 services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootdiamonds
+      MYSQL_DATABASE: diamonds
+      MYSQL_USER: diamonds
+      MYSQL_PASSWORD: diamonds
+    ports: 
+      - 3306:3306
+
   gatewayservice:
     image: pythonfinalproject2021.azurecr.io/gatewayservice
     container_name: gatewayservice
@@ -8,6 +21,8 @@ services:
     ports:
       - 5001:5001
     env_file: 'env.dev'
+    depends_on: 
+      - dataservice
   
   dataservice:
     image: pythonfinalproject2021.azurecr.io/dataservice
@@ -16,4 +31,9 @@ services:
     ports:
       - 5002:5002
     env_file: 'env.dev'
+    depends_on: 
+      - db
+
+volumes:
+  db_data:
     
