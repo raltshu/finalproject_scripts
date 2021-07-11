@@ -6,11 +6,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootdiamonds
-      MYSQL_DATABASE: diamonds
-      MYSQL_USER: diamonds
-      MYSQL_PASSWORD: diamonds
+    env_file: 'env.dev'
     ports: 
       - 3306:3306
 
