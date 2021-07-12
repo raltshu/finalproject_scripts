@@ -4,7 +4,7 @@ services:
   db:
     image: mysql:5.7
     volumes:
-      - db_data:/var/lib/mysql
+      - db-data:/var/lib/mysql
     restart: always
     env_file: 'env.dev'
     ports: 
@@ -14,6 +14,7 @@ services:
     image: pythonfinalproject2021.azurecr.io/gatewayservice
     container_name: gatewayservice
     build: ../gateway_service
+    domainname: "diamonds"
     ports:
       - 5001:5001
     env_file: 'env.dev'
@@ -31,5 +32,8 @@ services:
       - db
 
 volumes:
-  db_data:
-    
+  db-data:
+    driver: azure_file
+    driver_opts:
+      share_name: myfileshare
+      storage_account_name: finalproject2021storage
