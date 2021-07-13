@@ -33,7 +33,7 @@ services:
 
 volumes:
   db-data:
-    driver: azure_file
-    driver_opts:
-      share_name: myfileshare
-      storage_account_name: finalproject2021storage
+    # driver: azure_file
+    # driver_opts:
+    #   share_name: myfileshare
+    #   storage_account_name: finalproject2021storage
