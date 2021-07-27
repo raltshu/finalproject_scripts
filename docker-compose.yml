@@ -20,6 +20,7 @@ services:
     env_file: 'env.dev'
     depends_on: 
       - dataservice
+      - fitservice
   
   dataservice:
     image: pythonfinalproject2021.azurecr.io/dataservice
@@ -31,7 +32,23 @@ services:
     depends_on: 
       - db
 
+  fitservice:
+    image: pythonfinalproject2021.azurecr.io/fitservice
+    container_name: fitservice
+    build: ../fit_service
+    volumes: 
+      - fitdirectory:/app/files
+    ports:
+      - 5004:5004
+    env_file: 'env.dev'
+    environment:
+      - PYTHONUNBUFFERED=1  
+    depends_on: 
+      - dataservice
+
+
 volumes:
+  fitdirectory:
   db-data:
     # driver: azure_file
     # driver_opts:
