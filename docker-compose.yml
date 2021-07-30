@@ -19,6 +19,7 @@ services:
       - 5001:5001
     env_file: 'env.dev'
     depends_on: 
+      - alertservice
       - dataservice
       - fitservice
   
@@ -31,7 +32,16 @@ services:
     env_file: 'env.dev'
     depends_on: 
       - db
+      - alertservice
 
+  alertservice:
+    image: pythonfinalproject2021.azurecr.io/alertservice
+    container_name: alertservice
+    build: ../alert_service
+    ports:
+      - 5005:5005
+    env_file: 'env.dev'
+    
   fitservice:
     image: pythonfinalproject2021.azurecr.io/fitservice
     container_name: fitservice
@@ -44,6 +54,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1  
     depends_on: 
+      - alertservice
       - dataservice
 
 
