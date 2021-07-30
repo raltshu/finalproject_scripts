@@ -37,7 +37,7 @@ services:
   alertservice:
     image: pythonfinalproject2021.azurecr.io/alertservice
     container_name: alertservice
-    build: ../alert_service
+    build: ../alerts_service
     ports:
       - 5005:5005
     env_file: 'env.dev'
