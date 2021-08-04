@@ -2,57 +2,84 @@ version: '3.4'
 
 services:
   db:
-    image: mysql:5.7
+    image: mysql:5.7.35
     volumes:
       - db-data:/var/lib/mysql
-    restart: always
     env_file: 'env.dev'
+    deploy:
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.5'
     ports: 
       - 3306:3306
 
   gatewayservice:
-    image: pythonfinalproject2021.azurecr.io/gatewayservice
+    image: mydiamonds.azurecr.io/gatewayservice
     container_name: gatewayservice
     build: ../gateway_service
-    domainname: "diamonds"
+    domainname: "diamondsproject"
     ports:
       - 5001:5001
     env_file: 'env.dev'
+    deploy:
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.5'
     depends_on: 
       - alertservice
       - dataservice
       - fitservice
   
   dataservice:
-    image: pythonfinalproject2021.azurecr.io/dataservice
+    image: mydiamonds.azurecr.io/dataservice
     container_name: dataservice
     build: ../data_service
     ports:
       - 5002:5002
     env_file: 'env.dev'
+    deploy:
+      restart_policy:
+        condition: on-failure  
+      resources:
+        limits:
+          cpus: '0.5'
     depends_on: 
       - db
       - alertservice
 
   alertservice:
-    image: pythonfinalproject2021.azurecr.io/alertservice
+    image: mydiamonds.azurecr.io/alertservice
     container_name: alertservice
     build: ../alerts_service
     ports:
       - 5005:5005
     env_file: 'env.dev'
+    deploy:
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.5'
     
   fitservice:
-    image: pythonfinalproject2021.azurecr.io/fitservice
+    image: mydiamonds.azurecr.io/fitservice
     container_name: fitservice
     build: ../fit_service
     volumes: 
       - fitdirectory:/app/files
     ports:
       - 5004:5004
-    env_file: 'env.dev'
-    environment:
-      - PYTHONUNBUFFERED=1  
+    env_file: 'env.dev'    
+    deploy:
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.5'  
     depends_on: 
       - alertservice
       - dataservice
@@ -60,8 +87,12 @@ services:
 
 volumes:
   fitdirectory:
+    driver: azure_file
+    driver_opts:
+      share_name: modelfileshare
+      storage_account_name: diamondsstorage
   db-data:
-    # driver: azure_file
-    # driver_opts:
-    #   share_name: myfileshare
-    #   storage_account_name: finalproject2021storage
+    driver: azure_file
+    driver_opts:
+      share_name: myfileshare
+      storage_account_name: diamondsstorage
